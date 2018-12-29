@@ -20,7 +20,6 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 // Router Initialization
 app.get('/api/', (req, res) => {
   res.status(200).json({
