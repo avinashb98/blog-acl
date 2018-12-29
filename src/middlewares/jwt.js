@@ -3,10 +3,11 @@ const jwt = require('jsonwebtoken');
 const sendToken = (req, res) => {
   jwt.sign(
     { userId: req.parsed.userId },
-    process.env.SECRET,
+    process.env.JWT_SECRET,
     { expiresIn: '1200s' },
     (err, token) => {
       if (err) {
+        console.log(err);
         res.status(500).json({
           message: 'Error in Login'
         });
@@ -30,15 +31,15 @@ const verifyToken = (req, res, next) => {
     const bearerToken = bearer[1];
     token = bearerToken;
   } else {
-    res.status(401).json({
+    res.status(403).json({
       message: 'Did not receive token'
     });
     return;
   }
 
-  jwt.verify(token, process.env.SECRET, (err) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err) => {
     if (err) {
-      res.status(401).json({
+      res.status(403).json({
         message: 'Token Invalid. Forbidden.'
       });
       return;

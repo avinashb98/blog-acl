@@ -15,7 +15,7 @@ const userWithIdExists = async (userId) => {
 };
 
 const ValidateRegister = Joi.object().keys({
-  userId: Joi.string().min(3).max(30)
+  userId: Joi.string().min(3).max(30).required()
 });
 
 const register = async (req, res, next) => {
@@ -39,4 +39,29 @@ const register = async (req, res, next) => {
   next();
 };
 
-module.exports = { register };
+const ValidateLogin = Joi.object().keys({
+  userId: Joi.string().min(3).max(30).required(),
+  password: Joi.string().min(3).max(30).required()
+});
+
+const login = async (req, res, next) => {
+  const { error, value } = ValidateLogin.validate(req.body);
+  if (error) {
+    console.log(error);
+    res.status(400).json({
+      message: 'Invalid Input Format'
+    });
+    return;
+  }
+
+  if (!(await userWithIdExists(value.userId))) {
+    res.status(404).json({
+      message: 'This user does not exist'
+    });
+    return;
+  }
+
+  req.parsed = value;
+  next();
+};
+module.exports = { register, login };
