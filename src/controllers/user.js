@@ -1,10 +1,17 @@
 const User = require('../models/user');
+const {
+  generatePassword
+} = require('./utils');
 
 const register = async (req, res) => {
-  const { id } = req.body;
+  const { userId } = req.body;
+
+  const password = generatePassword();
+  console.log(password);
+
   let user;
   try {
-    user = await User.create({ id });
+    user = await User.create({ userId, password });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -16,7 +23,8 @@ const register = async (req, res) => {
   res.status(201).json({
     message: 'Guest User Successfully created',
     data: {
-      id: user.id
+      id: user.userId,
+      password
     }
   });
 };
