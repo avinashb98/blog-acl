@@ -14,7 +14,10 @@ const register = async (req, res) => {
   }
   console.log(user);
   res.status(201).json({
-    message: 'Guest User Successfully created'
+    message: 'Guest User Successfully created',
+    data: {
+      id: user.id
+    }
   });
 };
 

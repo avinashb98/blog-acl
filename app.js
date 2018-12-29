@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const userRouter = require('./src/controllers/user');
 
 // mongodb config
 require('./config/db');
@@ -26,5 +27,7 @@ app.get('/api/', (req, res) => {
     msg: 'Register to Blogs-ACL API'
   });
 });
+
+app.use('/api/user/', userRouter);
 
 module.exports = app;
