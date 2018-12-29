@@ -14,6 +14,7 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
+    default: 'guest',
     required: true
   },
   createdAt: {
