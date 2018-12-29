@@ -7,7 +7,6 @@ const register = async (req, res) => {
   const { userId } = req.body;
 
   const password = generatePassword();
-  console.log(password);
 
   let user;
   try {
@@ -19,7 +18,6 @@ const register = async (req, res) => {
     });
     return;
   }
-  console.log(user);
   res.status(201).json({
     message: 'Guest User Successfully created',
     data: {
