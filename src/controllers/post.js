@@ -32,6 +32,13 @@ const getPost = async (req, res) => {
     return;
   }
 
+  if (!post) {
+    res.status(404).json({
+      message: 'Post Not Found'
+    });
+    return;
+  }
+
   res.status(200).json({
     message: 'Post Details',
     data: {
