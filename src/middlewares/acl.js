@@ -3,6 +3,15 @@ const Acl = require('acl');
 // eslint-disable-next-line new-cap
 const acl = new Acl(new Acl.memoryBackend());
 
+/**
+ *            View  Add   Edit  Remove
+ * Admin      1     1     1     1
+ * Author     1     1     1     0
+ * Subscriber 1     1     0     0
+ * Guest      1     0     0     0
+ */
+
+
 acl.allow([
   {
     roles: ['admin'],
