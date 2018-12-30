@@ -2,16 +2,16 @@ const User = require('../models/user');
 const {
   generatePassword
 } = require('./utils');
-const acl = require('../middlewares/acl');
 
 const register = async (req, res) => {
   const { userId } = req.body;
 
   const password = generatePassword();
-
+  const role = req.originalUrl.split('/')[3];
+  console.log(role);
   let user;
   try {
-    user = await User.create({ userId, password });
+    user = await User.create({ userId, password, role });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -26,7 +26,6 @@ const register = async (req, res) => {
       password
     }
   });
-  acl.addUserRoles('userId', 'guest');
 };
 
 const login = async (req, res, next) => {
