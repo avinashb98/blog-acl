@@ -8,7 +8,7 @@ acl.allow([
   {
     roles: ['admin'],
     allows: [
-      { resources: ['/api/post/'], permissions: ['get', 'put', 'delete', 'post'] }
+      { resources: '*', permissions: '*' }
     ]
   },
   {
@@ -26,7 +26,7 @@ acl.allow([
   {
     roles: ['guest'],
     allows: [
-      { resources: ['/api/post/', '/api/post/*'], permissions: ['get'] }
+      { resources: ['/api/post/'], permissions: ['get'] }
     ]
   }
 ]);
@@ -47,12 +47,13 @@ const addRoles = async () => {
   await addRoles();
 })();
 
+const getResource = url => `${url.split('/').splice(0, 3).join('/')}/`;
 
 const checkPermissions = (req, res, next) => {
   if (req.decoded) {
     acl.isAllowed(
       req.decoded.userId,
-      req.originalUrl,
+      getResource(req.originalUrl),
       req.method.toLowerCase(),
       (error, allowed) => {
         if (allowed) {
@@ -60,12 +61,16 @@ const checkPermissions = (req, res, next) => {
           next();
         } else {
           console.log('Authorization failed');
-          res.send({ message: 'Insufficient permissions to access resource' });
+          res.status(403).json({
+            message: 'Insufficient permissions to access resource'
+          });
         }
       }
     );
   } else {
-    res.send({ message: 'User not authenticated' });
+    res.status(401).json({
+      message: 'User not authenticated'
+    });
   }
 };
 
