@@ -17,7 +17,7 @@ const postExists = async (cuid) => {
 
 const ValidatePost = Joi.object().keys({
   title: Joi.string().min(3).max(30).required(),
-  content: Joi.string().required()
+  content: Joi.string().required().optional()
 });
 
 const add = async (req, res, next) => {

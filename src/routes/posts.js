@@ -21,11 +21,11 @@ router.get(
 );
 
 // Add a new Post
-router.post('/', validate.add, PostController.addPost);
+router.post('/', checkPermissions, validate.add, PostController.addPost);
 
-router.put('/:cuid', validate.update, PostController.updatePost);
+router.put('/:cuid', checkPermissions, validate.update, PostController.updatePost);
 
 // Delete a post by cuid
-router.delete('/:cuid', validate.remove, PostController.deletePost);
+router.delete('/:cuid', checkPermissions, validate.remove, PostController.deletePost);
 
 module.exports = router;
