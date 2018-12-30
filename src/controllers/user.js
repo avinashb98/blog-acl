@@ -2,6 +2,7 @@ const User = require('../models/user');
 const {
   generatePassword
 } = require('./utils');
+const { acl } = require('../middlewares/acl');
 
 const register = async (req, res) => {
   const { userId } = req.body;
@@ -26,6 +27,7 @@ const register = async (req, res) => {
       password
     }
   });
+  await acl.addUserRoles(userId, role);
 };
 
 const login = async (req, res, next) => {

@@ -31,18 +31,6 @@ acl.allow([
   }
 ]);
 
-const addRoles = async () => {
-  const users = await User.find();
-  users.forEach(async (user) => {
-    await acl.addUserRoles(user.userId, user.role);
-    console.log('Added', user.role, 'role to user', user.userId);
-  });
-};
-
-(async () => {
-  await addRoles();
-})();
-
 const getResource = url => `${url.split('/').splice(0, 3).join('/')}/`;
 
 const checkPermissions = (req, res, next) => {
@@ -71,5 +59,6 @@ const checkPermissions = (req, res, next) => {
 };
 
 module.exports = {
+  acl,
   checkPermissions
 };
