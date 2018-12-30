@@ -19,11 +19,13 @@
   "homepage": "https://github.com/avinashb98/blog-acl#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cuid": "^2.1.4",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "generate-password": "^1.4.1",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.4.0",
+    "limax": "^1.7.0",
     "mongoose": "^5.4.1"
   },
   "devDependencies": {

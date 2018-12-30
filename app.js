@@ -1,7 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+
+// Routers
 const userRouter = require('./src/routes/user');
+const postRouter = require('./src/routes/posts');
 
 // mongodb config
 require('./config/db');
@@ -29,5 +32,6 @@ app.get('/api/', (req, res) => {
 });
 
 app.use('/api/user/', userRouter);
+app.use('/api/post/', postRouter);
 
 module.exports = app;
