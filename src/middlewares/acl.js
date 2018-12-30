@@ -4,12 +4,15 @@ const User = require('../models/user');
 // eslint-disable-next-line new-cap
 const acl = new Acl(new Acl.memoryBackend());
 
-/**
+
+/**           Access Control logic
+ *
  *            View  Add   Edit  Remove
  * Admin      1     1     1     1
  * Author     1     1     1     0
  * Subscriber 1     1     0     0
  * Guest      1     0     0     0
+ *
  */
 
 
@@ -40,6 +43,7 @@ acl.allow([
   }
 ]);
 
+// Reassign roles to the users on server restart
 User
   .find()
   .exec()
@@ -53,8 +57,10 @@ User
     });
   });
 
+// Get resoure name from the url
 const getResource = url => `${url.split('/').splice(0, 3).join('/')}/`;
 
+// Permissions middleware
 const checkPermissions = (req, res, next) => {
   if (req.decoded) {
     acl.isAllowed(
@@ -62,9 +68,6 @@ const checkPermissions = (req, res, next) => {
       getResource(req.originalUrl),
       req.method.toLowerCase(),
       (error, allowed) => {
-        console.log(req.decoded.userId,
-          getResource(req.originalUrl),
-          req.method.toLowerCase());
         if (allowed) {
           console.log('Authorization passed');
           next();
