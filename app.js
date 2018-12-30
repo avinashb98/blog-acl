@@ -31,6 +31,7 @@ app.get('/api/', (req, res) => {
   });
 });
 
+// API Endpoints
 app.use('/api/user/', userRouter);
 app.use('/api/post/', postRouter);
 
