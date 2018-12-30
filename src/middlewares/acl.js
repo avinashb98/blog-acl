@@ -8,19 +8,19 @@ acl.allow([
   {
     roles: ['admin'],
     allows: [
-      { resources: '*', permissions: '*' }
+      { resources: '/api/post/', permissions: ['get', 'put', 'post', 'delete'] }
     ]
   },
   {
     roles: ['author'],
     allows: [
-      { resources: ['post'], permissions: ['get', 'put', 'post'] }
+      { resources: ['/api/post/'], permissions: ['get', 'put', 'post'] }
     ]
   },
   {
     roles: ['subscriber'],
     allows: [
-      { resources: ['post'], permissions: ['get', 'put'] }
+      { resources: ['/api/post/'], permissions: ['get', 'put'] }
     ]
   },
   {
@@ -33,13 +33,9 @@ acl.allow([
 
 const addRoles = async () => {
   const users = await User.find();
-  users.forEach((user) => {
-    acl.addUserRoles(user.userId, user.role, (err) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log('Added', user.role, 'role to user', user.userId);
-    });
+  users.forEach(async (user) => {
+    await acl.addUserRoles(user.userId, user.role);
+    console.log('Added', user.role, 'role to user', user.userId);
   });
 };
 
