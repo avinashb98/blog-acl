@@ -37,13 +37,14 @@ const verifyToken = (req, res, next) => {
     return;
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       res.status(403).json({
         message: 'Token Invalid. Forbidden.'
       });
       return;
     }
+    req.decoded = decoded;
     next();
   });
 };

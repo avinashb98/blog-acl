@@ -4,7 +4,6 @@ const Post = require('../models/post');
 
 const getAll = async (req, res) => {
   let posts;
-
   try {
     posts = await Post.find().sort('-createdAt');
   } catch (err) {
@@ -43,6 +42,7 @@ const getPost = async (req, res) => {
 
 const addPost = async (req, res) => {
   const { title, content } = req.body;
+  const { userId } = req.decoded;
 
   const newPost = new Post({
     title, content
@@ -50,6 +50,7 @@ const addPost = async (req, res) => {
 
   newPost.slug = slug(newPost.title.toLowerCase(), { lowercase: true });
   newPost.cuid = cuid();
+  newPost.author = userId;
 
   try {
     await newPost.save();

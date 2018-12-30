@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/avinashb98/blog-acl#readme",
   "dependencies": {
+    "acl": "^0.4.11",
     "body-parser": "^1.18.3",
     "cuid": "^2.1.4",
     "dotenv": "^6.2.0",
