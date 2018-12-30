@@ -1,4 +1,5 @@
 const Acl = require('acl');
+const User = require('../models/user');
 
 // eslint-disable-next-line new-cap
 const acl = new Acl(new Acl.memoryBackend());
@@ -39,6 +40,19 @@ acl.allow([
   }
 ]);
 
+User
+  .find()
+  .exec()
+  .then((users) => {
+    users.forEach((user) => {
+      acl.addUserRoles(user.userId, user.role, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    });
+  });
+
 const getResource = url => `${url.split('/').splice(0, 3).join('/')}/`;
 
 const checkPermissions = (req, res, next) => {
@@ -48,6 +62,9 @@ const checkPermissions = (req, res, next) => {
       getResource(req.originalUrl),
       req.method.toLowerCase(),
       (error, allowed) => {
+        console.log(req.decoded.userId,
+          getResource(req.originalUrl),
+          req.method.toLowerCase());
         if (allowed) {
           console.log('Authorization passed');
           next();
