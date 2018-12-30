@@ -1,5 +1,4 @@
 const Acl = require('acl');
-const User = require('../models/user');
 
 // eslint-disable-next-line new-cap
 const acl = new Acl(new Acl.memoryBackend());
